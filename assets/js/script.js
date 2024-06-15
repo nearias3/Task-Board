@@ -9,7 +9,9 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-    const taskCard = $('taskCard')
+    const taskCard = $('taskCard');
+    localStorage.setItem("nextID", JSON.stringify(nextID));
+    return nextID;
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -19,16 +21,17 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
-    event.preventDefault();
-    console.log('taskList', taskList.val())
-    console.log('nextID', nextId.val())    
-        const title = $('input[task-title]');
-        const duedate = $('input[task-due-date]');
-          const formattedDueDate = dayjs(dueDate).format('MMMM D, YYYY');
-        const description = $('input[task-description]');
+    event.preventDefault();   
 
-        const newTask = {
-            id
+    const title = $('input[type="task-title"]').val('');
+    const duedate = $('input[type="task-due-date"]').val('');
+    const formattedDueDate = dayjs(dueDate).format('MMMM D, YYYY');
+    const description = $('input[type="task-description"]').val('');
+
+     
+    const newTask = {
+        dueDate: formattedDueDate,
+
         }
 }
 
