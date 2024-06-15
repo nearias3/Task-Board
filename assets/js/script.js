@@ -4,7 +4,10 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-    return nextID++;
+    nextId++;
+    localStorage.setItem("nextID", JSON.stringify(nextID));
+    return nextID;
+    
 }
 
 // Todo: create a function to create a task card
@@ -24,7 +27,7 @@ function handleAddTask(event){
     event.preventDefault();   
 
     const title = $('#task-title');
-    const duedate = $('#task-due-date');
+    const dueDate = $('#task-due-date');
     const formattedDueDate = dayjs(dueDate).format('MMMM D, YYYY');
     const description = $('#task-description');
 
