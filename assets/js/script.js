@@ -4,15 +4,12 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-    if (!nextID) {
-        nextID = 1;
-    }
+    return nextID++;
 }
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-    const card = 
-
+    const taskCard = $('taskCard')
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -22,7 +19,17 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
+    event.preventDefault();
+    console.log('taskList', taskList.val())
+    console.log('nextID', nextId.val())    
+        const title = $('input[task-title]');
+        const duedate = $('input[task-due-date]');
+          const formattedDueDate = dayjs(dueDate).format('MMMM D, YYYY');
+        const description = $('input[task-description]');
 
+        const newTask = {
+            id
+        }
 }
 
 // Todo: create a function to handle deleting a task
