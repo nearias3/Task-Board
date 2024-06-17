@@ -54,7 +54,6 @@ function renderTaskList() {
     $(".task-card").draggable({
       revert: "invalid",
       containment: ".swim-lanes",
-      position: "snap",
       start: function () {
         $(this);
       },
@@ -83,7 +82,7 @@ function handleAddTask(event){
       title: title,
       dueDate: formattedDueDate,
       description: description,
-      status: "to-do"
+      status: "todo"
     };
 
 
@@ -102,9 +101,9 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
-  const taskCard = $(event.target).parent().parent(".task-card");
+  const taskCard = $(event.target).closest(".task-card");
   const taskId = taskCard.attr("data-id");
-  taskList = taskList.filter((task) => parseInt(taskId));
+  taskList = taskList.filter((task) => task.id != taskId);
   localStorage.setItem("tasks", JSON.stringify(taskList));
   taskCard.remove();
 }
@@ -123,11 +122,12 @@ function handleDrop(event, ui) {
 }
     $(this).append(droppedCard);
     droppedCard.css({
-      position: "static", 
+      position: "relative", 
       top: 0,
       left: 0,
-      width: "100%", 
+      width: "100%",
       maxWidth: "18rem", 
+      height: "auto", 
     });
 }
 
