@@ -18,7 +18,7 @@ function createTaskCard(task) {
       <div class="card-body">
         <h5 class="card-title">${task.title}</h5>
         <p class="card-text">${task.description}</p>
-        <p class="card-text"><small class="text-muted">Due: ${task.dueDate}</small></p>
+        <p class="card-text"><small style="color: white;">Due: ${task.dueDate}</small></p>
         <button class="btn btn-danger delete-task">Delete</button>
       </div>
     </div>
