@@ -24,6 +24,15 @@ function createTaskCard(task) {
     </div>
   `);
 
+  const today = dayjs();
+  const dueDate = dayjs(task.dueDate);
+  if (dueDate.isBefore(today, "day")) {
+    card.addClass("bg-danger text-white");
+  } else if (dueDate.diff(today, "day") <= 2) {
+    card.addClass("bg-warning text-white");
+  }
+
+
   return card;
 }
 
