@@ -38,11 +38,35 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-    const taskList = JSON.parse(localStorage.getItem("tasks"));
+    $("#todo-cards, #in-progress-cards, #done-cards").empty();
 
+    $.each(taskList, function (index, task) {
+      const taskCard = createTaskCard(task);
+      if (task.status === "to-do") {
+        $("#todo-cards").append(taskCard);
+      } else if (task.status === "in-progress") {
+        $("#in-progress-cards").append(taskCard);
+      } else if (task.status === "done") {
+        $("#done-cards").append(taskCard);
+      }
+    });
 
+    $(".task-card").draggable({
+      revert: "invalid",
+      containment: ".swim-lanes",
+      start: function () {
+        $(this);
+      },
+      stop: function () {
+        $(this);
+      },
+    });
 
-}
+    $(".lane").droppable({
+            accept: ".task-card",
+            drop: handleDrop,
+        });
+    }
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
@@ -58,6 +82,7 @@ function handleAddTask(event){
       title: title,
       dueDate: formattedDueDate,
       description: description,
+      status: "to-do"
     };
 
 
@@ -85,6 +110,15 @@ function handleDeleteTask(event) {
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
+     const droppedCard = ui.draggable;
+     const droppedCardId = droppedCard.attr("data-id");
+     const newLaneId = $(this).attr("id");
+
+     const updatedTask = taskList.find(task => task.id === parseInt(droppedCardId));
+        if (updatedTask) {
+            updatedTask.status = newLaneId;
+            localStorage.setItem("tasks", JSON.stringify(taskList));
+}
 
 }
 
