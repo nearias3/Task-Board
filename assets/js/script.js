@@ -66,8 +66,12 @@ function handleAddTask(event){
 }
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
-
+function handleDeleteTask(event) {
+  const taskCard = $(event.target).parent().parent(".task-card");
+  const taskId = taskCard.attr("data-id");
+  taskList = taskList.filter((task) => parseInt(taskId));
+  localStorage.setItem("tasks", JSON.stringify(taskList));
+  taskCard.remove();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
@@ -81,5 +85,5 @@ $(document).ready(function () {
     $('#task-form').submit(handleAddTask);
     renderTaskList();
 
-    $('.delete-btn').click(handleDeleteTask);
+    $(document).on("click", ".delete-task", handleDeleteTask);
 });
