@@ -14,7 +14,7 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
    const card = $(`
-    <div class="card task-card mb-3" data-id="${task.id}">
+    <div class="card task-card mb-3" style="max-width: 18rem;" data-id="${task.id}">
       <div class="card-body">
         <h5 class="card-title">${task.title}</h5>
         <p class="card-text">${task.description}</p>
@@ -121,8 +121,14 @@ function handleDrop(event, ui) {
             updatedTask.status = newLaneId;
             localStorage.setItem("tasks", JSON.stringify(taskList));
 }
-    const newContainer = $(this).find(".card-body");
-    newContainer.append(droppedCard.css({ top: 0, left: 0 }));
+    $(this).append(droppedCard);
+    droppedCard.css({
+      position: "static", 
+      top: 0,
+      left: 0,
+      width: "100%", 
+      maxWidth: "18rem", 
+    });
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
