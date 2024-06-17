@@ -18,7 +18,7 @@ function createTaskCard(task) {
       <div class="card-body">
         <h5 class="card-title">${task.title}</h5>
         <p class="card-text">${task.description}</p>
-        <p class="card-text"><small style="color: white;">Due: ${task.dueDate}</small></p>
+        <p class="card-text"><small style="color: black;">Due: ${task.dueDate}</small></p>
         <button class="btn btn-danger delete-task" style="border: 1px solid white;">Delete</button>
       </div>
     </div>
@@ -66,6 +66,8 @@ function renderTaskList() {
             accept: ".task-card",
             drop: handleDrop,
         });
+        
+
     }
 
 // Todo: create a function to handle adding a new task
@@ -74,17 +76,18 @@ function handleAddTask(event){
 
     const title = $("#task-title").val();
     const dueDate = $("#task-due-date").val();
-    const formattedDueDate = dayjs(dueDate).format("MMMM D, YYYY");
     const description = $("#task-description").val();
 
-    const newTask = {
-      id: generateTaskId(),
-      title: title,
-      dueDate: formattedDueDate,
-      description: description,
-      status: "todo"
-    };
 
+    if (title && dueDate && description) {
+        const formattedDueDate = dayjs(dueDate).format("MMMM D, YYYY");
+        const newTask = {
+            id: generateTaskId(),
+            title: title,
+            dueDate: formattedDueDate,
+            description: description,
+            status: "todo"
+        };
 
 
     taskList.push(newTask);
@@ -97,6 +100,22 @@ function handleAddTask(event){
     $("#task-due-date").val("");
     $("#task-description").val("");
 
+function initializeDraggable() {
+  $(".task-card").draggable({
+    revert: "invalid",
+    containment: ".swim-lanes",
+    start: function () {
+      $(this);
+    },
+    stop: function () {
+      $(this);
+    },
+  });
+}
+
+    initializeDraggable();
+
+    }
 }
 
 // Todo: create a function to handle deleting a task
@@ -110,25 +129,42 @@ function handleDeleteTask(event) {
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-     const droppedCard = ui.draggable;
-     const droppedCardId = droppedCard.attr("data-id");
-     const newLaneId = $(this).attr("id");
+  const droppedCard = ui.draggable;
+  const droppedCardId = droppedCard.attr("data-id");
+  const newLaneId = $(this).attr("id");
 
+  const updatedTask = taskList.find(
+    (task) => task.id === parseInt(droppedCardId)
+  );
+  if (updatedTask) {
+    updatedTask.status = newLaneId;
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+  }
 
-     const updatedTask = taskList.find(task => task.id === parseInt(droppedCardId));
-        if (updatedTask) {
-            updatedTask.status = newLaneId;
-            localStorage.setItem("tasks", JSON.stringify(taskList));
-}
-    $(this).append(droppedCard);
-    droppedCard.css({
-      position: "relative", 
-      top: 0,
-      left: 0,
-      width: "100%",
-      maxWidth: "18rem", 
-      height: "auto", 
-    });
+  $(this).append(droppedCard);
+
+  droppedCard.css({ 
+    top: 0,
+    left: 0,
+    width: "100%",
+    maxWidth: "18rem",
+    height: "auto",
+  });
+
+  $(this).css("background-color", "#f8f9fa");
+  // Reset lane background colors or other styles if needed
+
+  // Ensure draggable behavior is restored
+  droppedCard.draggable({
+    revert: "invalid",
+    containment: ".swim-lanes",
+    start: function () {
+      $(this);
+    },
+    stop: function () {
+      $(this);
+    },
+  });
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
