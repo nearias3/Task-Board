@@ -152,9 +152,7 @@ function handleDrop(event, ui) {
   });
 
   $(this).css("background-color", "#f8f9fa");
-  // Reset lane background colors or other styles if needed
 
-  // Ensure draggable behavior is restored
   droppedCard.draggable({
     revert: "invalid",
     containment: ".swim-lanes",
