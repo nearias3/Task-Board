@@ -59,6 +59,10 @@ function handleAddTask(event){
     const taskCard = createTaskCard(newTask);
     $("#todo-cards").append(taskCard);
 
+    $("#task-title").val("");
+    $("#task-due-date").val("");
+    $("#task-description").val("");
+
 }
 
 // Todo: create a function to handle deleting a task
