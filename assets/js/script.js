@@ -19,7 +19,7 @@ function createTaskCard(task) {
         <h5 class="card-title">${task.title}</h5>
         <p class="card-text">${task.description}</p>
         <p class="card-text"><small style="color: white;">Due: ${task.dueDate}</small></p>
-        <button class="btn btn-danger delete-task">Delete</button>
+        <button class="btn btn-danger delete-task" style="border: 1px solid white;">Delete</button>
       </div>
     </div>
   `);
@@ -54,6 +54,7 @@ function renderTaskList() {
     $(".task-card").draggable({
       revert: "invalid",
       containment: ".swim-lanes",
+      position: "snap",
       start: function () {
         $(this);
       },
@@ -114,12 +115,14 @@ function handleDrop(event, ui) {
      const droppedCardId = droppedCard.attr("data-id");
      const newLaneId = $(this).attr("id");
 
+
      const updatedTask = taskList.find(task => task.id === parseInt(droppedCardId));
         if (updatedTask) {
             updatedTask.status = newLaneId;
             localStorage.setItem("tasks", JSON.stringify(taskList));
 }
-
+    const newContainer = $(this).find(".card-body");
+    newContainer.append(droppedCard.css({ top: 0, left: 0 }));
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
